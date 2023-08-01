@@ -2,14 +2,14 @@ package com.koding.web.data.remote.model
 
 import com.google.gson.annotations.SerializedName
 
-data class Response(
+data class Response<T>(
 
 	@field:SerializedName("data")
-	val data: List<DataItem?>? = null,
+	val data: T,
 
 	@field:SerializedName("success")
-	val success: Boolean? = null,
+	val success: Boolean,
 
 	@field:SerializedName("message")
-	val message: String? = null
+	val message: String
 )

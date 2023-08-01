@@ -1,10 +1,11 @@
-package com.koding.web.data.remote.model
+package com.koding.web.data.remote
 
 import com.koding.web.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
 object ApiConfig {
     fun getApiService(): ApiService {
         val loggingInterceptor =

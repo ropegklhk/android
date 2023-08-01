@@ -2,20 +2,20 @@ package com.koding.web.data.remote.model
 
 import com.google.gson.annotations.SerializedName
 
-data class DataItem(
+data class Sliders(
 
 	@field:SerializedName("image")
-	val image: String? = null,
+	val image: String = "",
 
 	@field:SerializedName("updated_at")
-	val updatedAt: String? = null,
+	val updatedAt: String = "",
 
 	@field:SerializedName("link")
-	val link: Any? = null,
+	val link: String = "",
 
 	@field:SerializedName("created_at")
-	val createdAt: String? = null,
+	val createdAt: String = "",
 
 	@field:SerializedName("id")
-	val id: Int? = null
+	val id: Int = 0
 )
