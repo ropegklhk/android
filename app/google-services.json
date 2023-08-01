@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "577451600411",
+    "project_id": "web-mantap",
+    "storage_bucket": "web-mantap.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:577451600411:android:f118007785aa1d1fd766be",
+        "android_client_info": {
+          "package_name": "com.koding.web"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "577451600411-oss4128ti5b14pcekishhvvv0s2tf6uv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIqRXWKNEyN-29NpeFUJkZTPRJL76QcUM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "577451600411-oss4128ti5b14pcekishhvvv0s2tf6uv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
