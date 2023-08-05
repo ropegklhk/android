@@ -11,7 +11,7 @@ import com.koding.web.R
 import com.koding.web.data.remote.model.Category
 import com.koding.web.databinding.ItemCategoryAllBinding
 
-class CategoryAllAdapter() :
+class CategoryAllAdapter(private val onClick: (category: Category) -> Unit) :
     PagingDataAdapter<Category, CategoryAllAdapter.CategoryAllViewHolder>(diffCallback) {
 
     override fun onBindViewHolder(holder: CategoryAllViewHolder, position: Int) {
@@ -35,6 +35,9 @@ class CategoryAllAdapter() :
                         transformations(CircleCropTransformation())
                     }
                     tvCategory.text = it.name
+                    itemView.setOnClickListener {
+                        onClick(item)
+                    }
                 }
             }
         }

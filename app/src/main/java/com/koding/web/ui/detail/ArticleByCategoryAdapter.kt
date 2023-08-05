@@ -1,9 +1,9 @@
-package com.koding.web.ui.home
+package com.koding.web.ui.detail
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.RoundedCornersTransformation
@@ -12,7 +12,9 @@ import com.koding.web.data.remote.model.Article
 import com.koding.web.databinding.ItemArticleBinding
 import com.koding.web.utils.withDateFormat
 
-class ArticleAdapter(private val onClick: (article: Article) -> Unit) : PagingDataAdapter<Article, ArticleAdapter.ArticleViewHolder>(diffCallback) {
+class ArticleByCategoryAdapter(
+    private val onClick: (article: Article) -> Unit
+) : ListAdapter<Article, ArticleByCategoryAdapter.ArticleViewHolder>(diffCallback) {
 
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
         val articles = getItem(position)
@@ -26,8 +28,8 @@ class ArticleAdapter(private val onClick: (article: Article) -> Unit) : PagingDa
 
     inner class ArticleViewHolder(val binding: ItemArticleBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Article?) {
-            item?.let {
+        fun bind(item: Article) {
+            item.let {
                 with(binding) {
                     imageArticle.load(it.image) {
                         crossfade(true)
@@ -37,13 +39,12 @@ class ArticleAdapter(private val onClick: (article: Article) -> Unit) : PagingDa
                     }
                     tvTitle.text = it.title
                     tvCategory.text = it.category.name
-                    tvAuthorDate.text = it.user.name + " - " + it.createdAt.withDateFormat()
-                    // action click pada list article
+                    tvAuthorDate.text = it.createdAt.withDateFormat()
                     itemView.setOnClickListener {
                         onClick(item)
                     }
-
                 }
+
             }
         }
     }
@@ -58,6 +59,7 @@ class ArticleAdapter(private val onClick: (article: Article) -> Unit) : PagingDa
                 newItem: Article
             ): Boolean =
                 oldItem == newItem
+
         }
     }
 

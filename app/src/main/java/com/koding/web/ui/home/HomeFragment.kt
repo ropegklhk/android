@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.koding.web.data.remote.model.Article
+import com.koding.web.data.remote.model.Category
 import com.koding.web.databinding.FragmentHomeBinding
+import com.koding.web.ui.categories.CategoryAllAdapter
+import com.koding.web.ui.categories.CategoryFragmentDirections
 import com.koding.web.viewmodel.ViewModelFactory
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -35,8 +37,28 @@ class HomeFragment : Fragment() {
 
     // Inisialisasi categoryAdapter dengan Lazy
     private val categoryAdapter by lazy {
-        CategoryAdapter()
+        CategoryAdapter { category ->
+            detailCategory(category)
+        }
     }
+
+    // Inisialisasi categoryAllAdapter dengan Lazy
+    private val categoryAllAdapter by lazy {
+        CategoryAllAdapter { category ->
+            detailCategory(category)
+        }
+    }
+
+    private fun detailCategory(category: Category) {
+        val action = CategoryFragmentDirections.actionNavigationCategoriesToDetailCategoryFragment2(
+            slug = category.slug,
+            title = category.name
+        )
+        findNavController().navigate(action)
+    }
+
+
+
 
     // Inisialisasi articleAdapter dengan Lazy
     private val articleAdapter by lazy {
@@ -49,8 +71,6 @@ class HomeFragment : Fragment() {
         val action = HomeFragmentDirections.actionNavigationHomeToDetailArticleFragment(slug = article.slug)
         findNavController().navigate(action)
     }
-
-
 
     // Method onCreateView dipanggil ketika Fragment pertama kali dibuat
     override fun onCreateView(

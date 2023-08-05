@@ -11,7 +11,7 @@ interface ApiService {
 
     @GET("public/categories")
     suspend fun getCategory(
-        @Query("page") page: Int,
+        @Query("page") page: Int
     ): Response<Paging<Category>>
 
     @GET("public/posts")
@@ -23,4 +23,9 @@ interface ApiService {
     suspend fun getDetailArticle(
         @Path("slug") slug:String
     ):Response<Article>
+
+    @GET("public/categories/{slug}")
+    suspend fun getDetailCategory(
+        @Path("slug") slug:String
+    ):Response<Category>
 }

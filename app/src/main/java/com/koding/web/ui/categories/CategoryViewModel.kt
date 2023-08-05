@@ -8,7 +8,7 @@ import com.koding.web.data.remote.Repository
 import com.koding.web.data.remote.model.Category
 import kotlinx.coroutines.flow.Flow
 
-class CategoryViewModel(private val repository: Repository) : ViewModel() {
+class CategoryViewModel(private val repository: com.koding.web.data.remote.Repository) : ViewModel() {
     val getCategory: Flow<PagingData<Category>> =
         repository.getCategory().cachedIn(viewModelScope)
 }

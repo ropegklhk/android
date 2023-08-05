@@ -6,10 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.google.android.material.slider.Slider
 import com.koding.web.data.remote.Repository
 import com.koding.web.data.remote.model.Sliders
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
@@ -25,7 +23,6 @@ class HomeViewModel(
     init {
         getSliders()
     }
-
 
     private fun getSliders() {
         // proses asinkronus

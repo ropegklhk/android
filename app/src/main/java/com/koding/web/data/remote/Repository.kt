@@ -27,6 +27,7 @@ class Repository private constructor(
             instance ?: Repository(apiService)
         }
     }
+
     suspend fun getSlider(): Response<List<Sliders>> = apiService.getSlider()
 
     // config paging
@@ -43,6 +44,7 @@ class Repository private constructor(
 
         ).flow
     }
+
     fun getArticle(): Flow<PagingData<Article>> {
         return Pager(
             config = pagingConfig,
@@ -63,4 +65,16 @@ class Repository private constructor(
             emit(Resource.Error(e.toString()))
         }
     }
+
+    fun getDetailCategory(slug: String): LiveData<Resource<Category>> = liveData {
+        emit(Resource.Loading)
+        try {
+            val response = apiService.getDetailCategory(slug)
+            emit(Resource.Success(response.data))
+
+        } catch (e: Exception) {
+            emit(Resource.Error(e.toString()))
+        }
+    }
+
 }

@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_navigation_home_to_detailArticleFragment"
             app:destination="@id/detailArticleFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_detailCategoryFragment2"
+            app:destination="@id/detailCategoryFragment2" />
     </fragment>
     <fragment
         android:id="@+id/navigation_bookmark"
@@ -23,7 +26,11 @@
         android:id="@+id/navigation_categories"
         android:name="com.koding.web.ui.categories.CategoryFragment"
         android:label="fragment_category"
-        tools:layout="@layout/fragment_category" />
+        tools:layout="@layout/fragment_category" >
+        <action
+            android:id="@+id/action_navigation_categories_to_detailCategoryFragment2"
+            app:destination="@id/detailCategoryFragment2" />
+    </fragment>
     <fragment
         android:id="@+id/detailArticleFragment"
         android:name="com.koding.web.ui.detail.DetailArticleFragment"
@@ -33,5 +40,22 @@
             android:name="slug"
             app:argType="string"
             android:defaultValue="slug" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailCategoryFragment2"
+        android:name="com.koding.web.ui.detail.DetailCategoryFragment"
+        android:label="fragment_detail_category"
+        tools:layout="@layout/fragment_detail_category" >
+        <action
+            android:id="@+id/action_detailCategoryFragment2_to_detailArticleFragment"
+            app:destination="@id/detailArticleFragment" />
+        <argument
+            android:name="slug"
+            app:argType="string"
+            android:defaultValue="slug" />
+        <argument
+            android:name="title"
+            app:argType="string"
+            android:defaultValue="title" />
     </fragment>
 </navigation>

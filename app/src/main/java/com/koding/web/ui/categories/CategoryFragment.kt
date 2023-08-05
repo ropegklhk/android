@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.koding.web.data.remote.model.Category
 import com.koding.web.ui.categories.CategoryAllAdapter
 import com.koding.web.databinding.FragmentCategoryBinding
 import com.koding.web.viewmodel.ViewModelFactory
@@ -30,7 +32,17 @@ class CategoryFragment : Fragment() {
 
     // Inisialisasi categoryAllAdapter dengan Lazy
     private val categoryAllAdapter by lazy {
-        CategoryAllAdapter()
+        CategoryAllAdapter { category ->
+            detailCategory(category)
+        }
+    }
+
+    private fun detailCategory(category: Category) {
+        val action = CategoryFragmentDirections.actionNavigationCategoriesToDetailCategoryFragment2(
+            slug = category.slug,
+            title = category.name
+        )
+        findNavController().navigate(action)
     }
 
     /*

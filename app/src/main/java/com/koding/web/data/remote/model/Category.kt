@@ -20,5 +20,8 @@ data class Category(
     val id: Int = 0,
 
     @field:SerializedName("slug")
-    val slug: String = ""
+    val slug: String = "",
+
+    @field:SerializedName("posts")
+    val post: List<Article> = emptyList()
 )
