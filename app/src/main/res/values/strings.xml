@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">web</string>
+    <string name="app_name"></string>
     <string name="notif_back">Tekan Sekali Lagi untuk Keluar</string>
     <string name="nav_home">Home</string>
     <string name="nav_article">Article</string>

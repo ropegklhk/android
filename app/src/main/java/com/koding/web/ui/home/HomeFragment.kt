@@ -5,13 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.koding.web.data.remote.model.Article
+import com.koding.web.R
+import com.koding.web.data.local.entity.ArticleEntity
 import com.koding.web.data.remote.model.Category
 import com.koding.web.databinding.FragmentHomeBinding
+import com.koding.web.ui.bookmark.BookmarkFragmentDirections
 import com.koding.web.ui.categories.CategoryAllAdapter
 import com.koding.web.ui.categories.CategoryFragmentDirections
 import com.koding.web.viewmodel.ViewModelFactory
@@ -24,10 +29,10 @@ class HomeFragment : Fragment() {
     // Deklarasi variabel binding sebagai nullable FragmentHomeBinding
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+    private var isDarkMode: Boolean = false
 
-    // Inisialisasi viewModel dengan viewModels
     private val viewModel by viewModels<HomeViewModel> {
-        ViewModelFactory.getInstance()
+        ViewModelFactory.getInstance(requireContext())
     }
 
     // Inisialisasi sliderAdapter dengan Lazy
@@ -50,7 +55,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun detailCategory(category: Category) {
-        val action = CategoryFragmentDirections.actionNavigationCategoriesToDetailCategoryFragment2(
+        val action = CategoryFragmentDirections.actionNavigationCategoriesToDetailCategoryFragment(
             slug = category.slug,
             title = category.name
         )
@@ -59,16 +64,41 @@ class HomeFragment : Fragment() {
 
 
 
-
-    // Inisialisasi articleAdapter dengan Lazy
     private val articleAdapter by lazy {
-        ArticleAdapter { article ->
+        ArticleAdapter({ article ->
             detailArticle(article)
+        }, { article, position ->
+            bookmarked(article, position)
+        })
+    }
+
+    private fun setOnClick() = with(binding) {
+        btnDarkMode.setOnClickListener {
+            viewModel.saveThemeSetting(!isDarkMode)
+        }
+        btnSearch.setOnClickListener {
         }
     }
 
-    private fun detailArticle(article: Article) {
-        val action = HomeFragmentDirections.actionNavigationHomeToDetailArticleFragment(slug = article.slug)
+
+    private fun bookmarked(article: ArticleEntity, position: Int) {
+        val isBookmarked = article.isBookmark
+        viewModel.setBookmark(article)
+        articleAdapter.notifyItemChanged(position)
+        if (!isBookmarked) {
+            message("Article ${article.title} berhasil di simpan")
+        } else {
+            message("Article ${article.title} berhasil di hapus")
+        }
+    }
+
+    private fun message(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun detailArticle(article: ArticleEntity) {
+        val action =
+            HomeFragmentDirections.actionNavigationHomeToDetailArticleFragment(article)
         findNavController().navigate(action)
     }
 
@@ -89,6 +119,7 @@ class HomeFragment : Fragment() {
         // Panggil method setUi dan setObserver
         setUi()
         setObserver()
+        setOnClick()
     }
 
     // Method setObserver untuk mengambil data dari viewModel
@@ -109,6 +140,26 @@ class HomeFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.article.collectLatest {
                 articleAdapter.submitData(it)
+            }
+        }
+
+        //panggil
+        viewModel.getThemeSettings().observe(viewLifecycleOwner) { isDarkModeActive ->
+            isDarkMode = when (isDarkModeActive) {
+                true -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    binding.btnDarkMode.setImageDrawable(
+                        ContextCompat.getDrawable(requireContext(), R.drawable.ic_light_mode)
+                    )
+                    true
+                }
+                else -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    binding.btnDarkMode.setImageDrawable(
+                        ContextCompat.getDrawable(requireContext(), R.drawable.ic_dark_mode)
+                    )
+                    false
+                }
             }
         }
     }

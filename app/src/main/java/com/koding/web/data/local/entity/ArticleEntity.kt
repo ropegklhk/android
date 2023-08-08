@@ -1,4 +1,4 @@
-package com.koding.web.data.local
+package com.koding.web.data.local.entity
 
 import android.os.Parcelable
 import androidx.room.Entity
@@ -19,3 +19,4 @@ data class ArticleEntity(
     var slug: String = "",
     var isBookmark: Boolean
 ) : Parcelable
+

@@ -27,7 +27,7 @@ class CategoryFragment : Fragment() {
 
     // Inisialisasi viewModel dengan viewModels
     private val viewModel by viewModels<CategoryViewModel> {
-        ViewModelFactory.getInstance()
+        ViewModelFactory.getInstance(requireContext())
     }
 
     // Inisialisasi categoryAllAdapter dengan Lazy
@@ -38,7 +38,7 @@ class CategoryFragment : Fragment() {
     }
 
     private fun detailCategory(category: Category) {
-        val action = CategoryFragmentDirections.actionNavigationCategoriesToDetailCategoryFragment2(
+        val action = CategoryFragmentDirections.actionNavigationCategoriesToDetailCategoryFragment(
             slug = category.slug,
             title = category.name
         )

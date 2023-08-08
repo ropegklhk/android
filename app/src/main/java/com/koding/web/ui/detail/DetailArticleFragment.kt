@@ -1,5 +1,6 @@
 package com.koding.web.ui.detail
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
@@ -15,6 +16,7 @@ import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.koding.web.R
 import com.koding.web.data.Resource
+import com.koding.web.data.remote.model.Article
 import com.koding.web.databinding.FragmentDetailArticleBinding
 import com.koding.web.utils.closeLoading
 import com.koding.web.utils.showLoading
@@ -25,6 +27,11 @@ import com.koding.web.viewmodel.ViewModelFactory
 class DetailArticleFragment : Fragment() {
     private var _binding: FragmentDetailArticleBinding? = null
     private val binding get() = _binding!!
+    private val args: DetailArticleFragmentArgs by navArgs()
+    private val viewModel by viewModels<DetailViewModel> {
+        ViewModelFactory.getInstance(requireContext())
+    }
+    private var isBookmark: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -32,17 +39,21 @@ class DetailArticleFragment : Fragment() {
         _binding = FragmentDetailArticleBinding.inflate(inflater, container, false)
         return binding.root
     }
-    private val args: DetailArticleFragmentArgs by navArgs()
 
-    private val viewModel by viewModels<DetailViewModel> {
-        ViewModelFactory.getInstance()
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setUi()
+        setObserver()
     }
+
     @RequiresApi(Build.VERSION_CODES.N)
     private fun setObserver() {
-        viewModel.getDetailArticle(args.slug).observe(viewLifecycleOwner) { resources ->
+        viewModel.getDetailArticle(args.article.slug).observe(viewLifecycleOwner) { resources ->
             when (resources) {
                 is Resource.Loading -> {
                     showLoading(requireContext())
+
                 }
                 is Resource.Success -> {
                     closeLoading()
@@ -50,25 +61,21 @@ class DetailArticleFragment : Fragment() {
                     binding.imageArticle.load(article.image) {
                         transformations(RoundedCornersTransformation(12f))
                     }
-                    binding.tvTitle.text    = article.title
+                    binding.tvTitle.text = article.title
                     binding.tvCategory.text = article.category.name
-                    binding.tvAuthor.text   = article.user.name
-                    binding.tvDate.text     = article.createdAt.withDateFormat()
-                    binding.tvView.text     = article.viewsCount
-                    binding.wvContent.text  = Html.fromHtml(article.content, Html.FROM_HTML_MODE_LEGACY)
+                    binding.tvAuthor.text = article.user.name
+                    binding.tvDate.text = article.createdAt.withDateFormat()
+                    binding.tvView.text = article.viewsCount
+                    binding.wvContent.text =
+                        Html.fromHtml(article.content, Html.FROM_HTML_MODE_LEGACY)
                 }
                 is Resource.Error -> {
                     closeLoading()
                 }
             }
-        }
-    }
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setUi()
-        setObserver()
+        }
+
     }
 
     private fun setUi() = with(binding) {
@@ -81,17 +88,40 @@ class DetailArticleFragment : Fragment() {
             setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.bookmark -> {
+                        isBookmark = !isBookmark
+                        changeIcon()
+                        viewModel.setBookmark(args.article)
                         true
                     }
                     R.id.share -> {
+                        val sendIntent = Intent(Intent.ACTION_SEND)
+                        sendIntent.type = "text/plain"
+                        sendIntent.putExtra(Intent.EXTRA_SUBJECT, args.article.title)
+                        sendIntent.putExtra(
+                            Intent.EXTRA_TEXT,
+                            "https://news-api.appdev.my.id/" + args.article.slug
+                        )
+
+                        startActivity(Intent.createChooser(sendIntent, "Bagikan Artikel"))
                         true
                     }
                     else -> false
                 }
             }
         }
+        isBookmark = args.article.isBookmark
+        changeIcon()
     }
 
+    //Change Icon
+    private fun changeIcon() {
+        if (isBookmark) {
+            binding.toolbar.menu.findItem(R.id.bookmark).setIcon(R.drawable.ic_bookmarked)
+        } else {
+            binding.toolbar.menu.findItem(R.id.bookmark).setIcon(R.drawable.ic_bookmark)
+        }
+
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

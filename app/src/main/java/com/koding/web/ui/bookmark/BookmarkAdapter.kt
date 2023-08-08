@@ -1,4 +1,4 @@
-package com.koding.web.ui.detail
+package com.koding.web.ui.bookmark
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -13,14 +13,21 @@ import com.koding.web.data.local.entity.ArticleEntity
 import com.koding.web.databinding.ItemArticleBinding
 import com.koding.web.utils.withDateFormat
 
-class ArticleByCategoryAdapter(
+class BookmarkAdapter(
     private val onClick: (article: ArticleEntity) -> Unit,
-    private val onBookmarkClick: (article: ArticleEntity, posisiton: Int) -> Unit
-) : ListAdapter<ArticleEntity, ArticleByCategoryAdapter.ArticleViewHolder>(diffCallback) {
+    private val onBookmarkClick: (article: ArticleEntity) -> Unit
+) :
+    ListAdapter<ArticleEntity, BookmarkAdapter.BookmarkViewHolder>(diffCallback) {
 
-    override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookmarkViewHolder =
+        BookmarkViewHolder(
+            ItemArticleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        )
+
+    override fun onBindViewHolder(holder: BookmarkAdapter.BookmarkViewHolder, position: Int) {
         val articles = getItem(position)
         holder.bind(articles)
+
         val ivBookmark = holder.binding.ivBookmark
         articles?.let { article ->
             if (article.isBookmark) {
@@ -39,17 +46,12 @@ class ArticleByCategoryAdapter(
                 )
             }
             ivBookmark.setOnClickListener {
-                onBookmarkClick(article, position)
+                onBookmarkClick(article)
             }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder =
-        ArticleViewHolder(
-            ItemArticleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        )
-
-    inner class ArticleViewHolder(val binding: ItemArticleBinding) :
+    inner class BookmarkViewHolder(val binding: ItemArticleBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ArticleEntity) {
             item.let {
@@ -62,15 +64,16 @@ class ArticleByCategoryAdapter(
                     }
                     tvTitle.text = it.title
                     tvCategory.text = it.category
-                    tvAuthorDate.text = it.date.withDateFormat()
+                    tvAuthorDate.text = it.author + " - " + it.date.withDateFormat()
                     itemView.setOnClickListener {
                         onClick(item)
                     }
                 }
-
             }
         }
+
     }
+
 
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<ArticleEntity>() {
@@ -80,10 +83,8 @@ class ArticleByCategoryAdapter(
             override fun areContentsTheSame(
                 oldItem: ArticleEntity,
                 newItem: ArticleEntity
-            ): Boolean =
-                oldItem == newItem
+            ): Boolean = oldItem == newItem
 
         }
     }
-
 }

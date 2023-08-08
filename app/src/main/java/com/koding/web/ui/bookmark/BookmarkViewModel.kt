@@ -1,4 +1,4 @@
-package com.koding.web.ui.detail
+package com.koding.web.ui.bookmark
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,10 +6,9 @@ import com.koding.web.data.local.entity.ArticleEntity
 import com.koding.web.data.remote.Repository
 import kotlinx.coroutines.launch
 
-class DetailViewModel(private val repository: Repository) : ViewModel() {
-    fun getDetailArticle(slug: String) = repository.getDetailArticle(slug)
+class BookmarkViewModel(private val repository: Repository) : ViewModel() {
 
-    fun getDetailCategory(slug: String) = repository.getDetailCategory(slug)
+    fun getBookmarkArticle() = repository.getBookmarkArticle()
 
     fun setBookmark(articleEntity: ArticleEntity) {
         viewModelScope.launch {
@@ -18,4 +17,3 @@ class DetailViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 }
-
