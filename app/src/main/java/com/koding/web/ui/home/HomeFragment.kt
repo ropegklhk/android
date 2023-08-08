@@ -55,7 +55,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun detailCategory(category: Category) {
-        val action = CategoryFragmentDirections.actionNavigationCategoriesToDetailCategoryFragment(
+        val action = HomeFragmentDirections.actionNavigationHomeToDetailCategoryFragment(
             slug = category.slug,
             title = category.name
         )
