@@ -12,6 +12,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import com.koding.web.R
 import com.koding.web.data.local.entity.ArticleEntity
 import com.koding.web.data.remote.model.Category
@@ -165,6 +167,7 @@ class HomeFragment : Fragment() {
 
     // Method setUi untuk menampilkan tampilan pertama kali
     private fun setUi() = with(binding) {
+        Firebase.messaging.subscribeToTopic("push-notifications")
         // Set adapter sliderAdapter ke ViewPager vpBanner
         vpBanner.adapter = sliderAdapter
         // Set adapter categoryAdapter ke RecyclerView rvCategory, dengan layout manager horizontal
