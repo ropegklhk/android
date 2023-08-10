@@ -61,9 +61,7 @@ class HomeFragment : Fragment() {
         )
         findNavController().navigate(action)
     }
-
-
-
+  
     private val articleAdapter by lazy {
         ArticleAdapter({ article ->
             detailArticle(article)
@@ -77,6 +75,7 @@ class HomeFragment : Fragment() {
             viewModel.saveThemeSetting(!isDarkMode)
         }
         btnSearch.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_home_to_searchFragment3)
         }
     }
 

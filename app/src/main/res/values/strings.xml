@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name"></string>
+    <string name="app_name">WEB</string>
     <string name="notif_back">Tekan Sekali Lagi untuk Keluar</string>
     <string name="nav_home">Home</string>
     <string name="nav_article">Article</string>
@@ -22,4 +22,9 @@
     <string name="menu_bookmark" />
     <string name="menu_share" />
     <string name="loading" />
+    <string name="btn_text_cancel" />
+    <string name="article_empty" />
+    <string name="text_search_article" />
+
+
 </resources>

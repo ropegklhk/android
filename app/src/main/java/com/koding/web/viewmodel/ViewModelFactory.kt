@@ -18,6 +18,7 @@ import com.koding.web.ui.bookmark.BookmarkViewModel
 import com.koding.web.ui.categories.CategoryViewModel
 import com.koding.web.ui.detail.DetailViewModel
 import com.koding.web.ui.home.HomeViewModel
+import com.koding.web.ui.search.SearchViewModel
 import com.koding.web.utils.SettingPreferences
 import com.koding.web.viewmodel.ViewModelFactory.Companion.getInstance
 
@@ -51,6 +52,9 @@ class ViewModelFactory(
             }
             modelClass.isAssignableFrom(BookmarkViewModel::class.java) -> {
                 BookmarkViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(SearchViewModel::class.java) ->{
+                SearchViewModel(repository) as T
             }
             else -> throw Throwable("Unknown ViewModel class: " + modelClass.name)
         }

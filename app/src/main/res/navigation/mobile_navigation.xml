@@ -21,7 +21,7 @@
             app:argType="string"
             android:defaultValue="slug" />
         <action
-            android:id="@+id/action_navigation_home_to_searchFragment"
+            android:id="@+id/action_navigation_home_to_searchFragment3"
             app:destination="@id/searchFragment" />
     </fragment>
     <fragment
@@ -73,9 +73,8 @@
         android:name="com.koding.web.ui.search.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" >
-        <argument
-            android:name="slug"
-            app:argType="string"
-            android:defaultValue="slug" />
+        <action
+            android:id="@+id/action_searchFragment_to_detailArticleFragment"
+            app:destination="@id/detailArticleFragment" />
     </fragment>
 </navigation>

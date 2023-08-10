@@ -34,4 +34,5 @@ interface ApiService {
         @Query("page") page: Int,
         @Query("search") search: String = ""
     ): Response<Paging<Article>>
+
 }
