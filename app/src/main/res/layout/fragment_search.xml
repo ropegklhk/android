@@ -31,10 +31,9 @@
             android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_cancel"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
+        style="style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dp_0"
         android:layout_marginEnd="@dimen/dp_8"
@@ -43,7 +42,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/textField"
-        app:layout_constraintTop_toTopOf="@id/textField" />
+        app:layout_constraintTop_toTopOf="@id/textField"
+        app:layout_constraintVertical_bias="0.0" />
 
     <View
         android:id="@+id/line"

@@ -99,7 +99,8 @@ class DetailArticleFragment : Fragment() {
                         sendIntent.putExtra(Intent.EXTRA_SUBJECT, args.article.title)
                         sendIntent.putExtra(
                             Intent.EXTRA_TEXT,
-                            "https://news-api.appdev.my.id/" + args.article.slug
+//                            "https://news-api.appdev.my.id/api/" + args.article.slug
+                            "http://192.168.97.202:8080/api/" + args.article.slug
                         )
 
                         startActivity(Intent.createChooser(sendIntent, "Bagikan Artikel"))
